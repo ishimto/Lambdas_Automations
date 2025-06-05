@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lambda Tool Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            margin-bottom: 2rem;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 300px;
+        }
+        a.button {
+            padding: 1rem;
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.2s ease-in-out;
+        }
+        a.button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Lambda Tool Portal</h1>
+    <div class="button-container">
+        <a href="/wiki" class="button">📚 Wiki Summary</a>
+        <a href="/xlsx" class="button">📄 CSV to XLSX</a>
+        <a href="/init_gitlab" class="button">👥 Init GitLab Users</a>
+        <a href="/createrepo" class="button">👥 Create GitLab Repo</a>
+        <a href="/backup" class="button">📥 Backup file from Git to S3</a>
+    </div>
+</body>
+</html>
+

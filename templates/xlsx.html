@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Upload CSV Data</title>
+</head>
+<body>
+    <h1>Convert CSV to XLSX</h1>
+    <form action="/xlsx" method="post">
+        <label for="csv_data">Enter CSV data (use ; as delimiter):</label><br />
+        <textarea id="csv_data" name="csv_data" rows="10" cols="50" placeholder="name;age&#10;Alice;30&#10;Bob;25" required></textarea><br />
+
+        <label for="commit_message">Commit message (optional):</label><br />
+        <input type="text" id="commit_message" name="commit_message" placeholder="e.g. Updated Excel file"><br />
+
+        <label for="output_file_name">Output file name (optional):</label><br />
+        <input type="text" id="output_file_name" name="output_file_name" placeholder="e.g. output.xlsx"><br />
+
+        <button type="submit">Convert to XLSX</button>
+    </form>
+</body>
+</html>
+

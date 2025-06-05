@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Upload File to S3 from GitLab</title>
+</head>
+<body>
+    <h1>Push File to S3 from GitLab Repo</h1>
+    <form action="/backup" method="post">
+        <label for="file_name">File Name (e.g. data.xlsx):</label><br />
+        <input type="text" id="file_name" name="file_name" required><br /><br />
+
+        <label for="bucket_name">S3 Bucket Name:</label><br />
+        <input type="text" id="bucket_name" name="bucket_name" required><br /><br />
+
+        <label for="gitlab_user">GitLab User / Group:</label><br />
+        <input type="text" id="gitlab_user" name="gitlab_user" required><br /><br />
+
+        <label for="gitlab_repo">GitLab Repo Name:</label><br />
+        <input type="text" id="gitlab_repo" name="gitlab_repo" required><br /><br />
+        
+        <label for="gitlab_branch">GitLab Branch:</label><br />
+        <input type="text" id="gitlab_branch" name="gitlab_branch" required><br /><br />
+
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+

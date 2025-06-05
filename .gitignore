@@ -1,0 +1,10 @@
+*
+!**/*/
+!.gitignore
+!*.html
+!*.md
+!*.txt
+!*.py
+!*.yaml
+!Dockerfile
+.venv

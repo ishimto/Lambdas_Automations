@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Create Gitlab Repository using Lambda</title>
+</head>
+<body>
+    <h1>Create Repo</h1>
+    <form action="/createrepo" method="post">
+        <label for="repo_name">Repo name:</label><br />
+        <input type="text" id="repo_name" name="repo_name" required><br /><br />
+
+        <label for="repo_visibility">Repo visibility:</label><br />
+        <select id="repo_visibility" name="repo_visibility" required>
+            <option value="private">Private</option>
+            <option value="public">Public</option>
+        </select><br /><br />
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+
