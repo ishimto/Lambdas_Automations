@@ -1,4 +1,4 @@
-# DevOps Lambda All-in-One
+# DevOps Lambda Automations
 
 This repository provides a unified platform for DevOps automation using AWS Lambda, Flask, Google Sheets, GitLab, and WhatsApp integration. It streamlines common DevOps workflows through a web interface and modular Lambda functions.
 
