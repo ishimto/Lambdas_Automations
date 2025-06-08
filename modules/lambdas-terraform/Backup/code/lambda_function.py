@@ -40,7 +40,7 @@ def lambda_handler(event, context):
     except Exception as e:
         return {
             'statusCode': 500,
-            'body': f"Git backup to s3 lambda failed"
+            'body': f"Git backup to s3 lambda failed {str(e)}"
         }
     
     try:

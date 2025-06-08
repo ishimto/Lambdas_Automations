@@ -15,18 +15,18 @@ def get_secrets(secret_name="lambda/creds", region_name="eu-central-1"):
 def lambda_handler(event, context):
     title = event.get("title")
     if not title:
-        return {"statusCode": 400, "body": json.dumps({"error": "Missing title"})}
+        return {"statusCode": 400, "body": "Missing title"}
 
     try:
         summary = wikipedia.summary(title)
         new_entry = f"\n\n## {title}\n{summary}"
     except wikipedia.exceptions.PageError:
-        return {"statusCode": 404, "body": json.dumps({"error": f"Page '{title}' not found"})}
+        return {"statusCode": 404, "body": "Page '{title}' not found"}
     except Exception as e:
-        return {"statusCode": 500, "body": json.dumps({"error": str(e)})}
+        return {"statusCode": 500, "body":  str(e) }
 
     secrets = get_secrets()
-    gitlab_token = secrets["GITLAB_WIKI_TOKEN"]
+    gitlab_token = secrets["GITLAB_ADMIN_TOKEN"]
     gitlab_user = os.getenv("GITLAB_USER")
     gitlab_repo = os.getenv("GITLAB_REPO")
     gitlab_branch = os.getenv("GITLAB_BRANCH", "main")
@@ -36,7 +36,7 @@ def lambda_handler(event, context):
     if not all([gitlab_token, gitlab_user, gitlab_repo]):
         return {
             "statusCode": 500,
-            "body": json.dumps({"error": "Missing required environment variables"})
+            "body": "Missing required environment variables"
         }
 
     try:
@@ -65,11 +65,8 @@ def lambda_handler(event, context):
 
         return {
             "statusCode": 200,
-            "body": json.dumps({
-                "message": f"Summary {action} successfully",
-                "summary": summary
-            })
+            "body": f"Summary {action} successfully"
         }
 
     except Exception as e:
-        return {"statusCode": 500, "body": json.dumps({"error": str(e)})}
+        return {"statusCode": 500, "body": str(e)}

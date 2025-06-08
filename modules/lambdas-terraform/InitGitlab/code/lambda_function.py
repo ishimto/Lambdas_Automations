@@ -1,6 +1,7 @@
 import os
 import json
 import gitlab
+import boto3
 
 def get_secrets(secret_name="lambda/creds", region_name="eu-central-1"):
     session = boto3.session.Session()
@@ -19,10 +20,10 @@ def lambda_handler(event, context):
     gl = gitlab.Gitlab(gitlab_url, private_token=gitlab_token)
 
 
-    if not users:
+    if users == :
         return {
             "statusCode": 400,
-            "body": json.dumps({"error": "No users provided"})
+            "body": "No users provided"
         }
 
     results = []

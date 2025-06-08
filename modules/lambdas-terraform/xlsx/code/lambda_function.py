@@ -21,7 +21,7 @@ def lambda_handler(event, context):
     if not csv_data:
         return {
             "statusCode": 400,
-            "body": json.dumps({"error": "Missing csv_data"})
+            "body": "Missing csv_data"
         }
     secrets = get_gitlab_secrets()
 
@@ -35,7 +35,7 @@ def lambda_handler(event, context):
     if not all([gitlab_token, gitlab_user, gitlab_repo]):
         return {
             "statusCode": 500,
-            "body": json.dumps({"error": "Missing required environment variables"})
+            "body": "Missing required environment variables"
         }
 
     project_path = f"{gitlab_user}/{gitlab_repo}"
