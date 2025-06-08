@@ -37,17 +37,14 @@ def backup_git(file_name, bucket_name, gitlab_user, gitlab_repo, gitlab_branch):
     }
 
     response = lambda_client.invoke(
-        FunctionName="Backup_Git",
+        FunctionName="Backup_Lambda",
         InvocationType='RequestResponse',
         Payload=json.dumps(payload)
     )
 
     response_payload = response['Payload'].read().decode('utf-8')
     res = json.loads(response_payload)
-    if res:
-        return res
-
-    return "Backup to git failed"
+    return res["body"], res["statusCode"]
 
 
 def send_whatsapp_messages(data):
@@ -59,7 +56,7 @@ def send_whatsapp_messages(data):
     }
 
     response = lambda_client.invoke(
-        FunctionName="WhatsappNotify",
+        FunctionName="Twilio_Lambda",
         InvocationType='RequestResponse',
         Payload=json.dumps(payload)
     )
@@ -72,17 +69,14 @@ def call_wiki_lambda(title):
     payload = json.dumps({"title": title})
 
     response = lambda_client.invoke(
-        FunctionName="Wikipedia",
+        FunctionName="Wikipedia_Lambda",
         InvocationType="RequestResponse",
         Payload=payload
     )
 
     response_payload = response['Payload'].read().decode('utf-8')
     res = json.loads(response_payload)
-    if res:
-        return res
-
-    return "Wikipedia failed"
+    return res["body"], res["statusCode"]
 
 def send_users_to_lambda(sheet):
     init_data = gitlab_user_data(sheet)
@@ -91,17 +85,14 @@ def send_users_to_lambda(sheet):
     }
 
     response = lambda_client.invoke(
-        FunctionName='InitGitlab',
+        FunctionName='Init_Gitlab_Lambda',
         InvocationType='RequestResponse',
         Payload=json.dumps(payload)
     )
 
     response_payload = response['Payload'].read().decode('utf-8')
-    response = json.loads(response_payload)
-    if response['statusCode'] == 200:
-        return "Init Gitlab Succeeded"
-    else:
-        return "Init Gitlab Failed"
+    res = json.loads(response_payload)
+    return res["body"], res["statusCode"]
 
 
 def csv_to_xlsx(csv_data, commit_message, output_file_name):
@@ -114,7 +105,7 @@ def csv_to_xlsx(csv_data, commit_message, output_file_name):
     json_payload = json.dumps(payload)
 
     response = lambda_client.invoke(
-        FunctionName='CSV_TO_XLSX',
+        FunctionName='CSV_TO_XLSX_LAMBDA',
         InvocationType='RequestResponse',
         Payload=json_payload
     )
@@ -122,4 +113,4 @@ def csv_to_xlsx(csv_data, commit_message, output_file_name):
     response_payload = response['Payload'].read().decode('utf-8')
     res = json.loads(response_payload)
 
-    return res
+    return res["body"], res["statusCode"]
