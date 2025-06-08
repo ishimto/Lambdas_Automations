@@ -6,7 +6,7 @@ This repository provides a unified platform for DevOps automation using AWS Lamb
 
 - **Web UI** for triggering DevOps tasks (backups, repo creation, wiki search, etc.)
 - **AWS Lambda** integration for serverless backend processing 
-- **Google Sheets** integration in order to init gitlab users management and twilio contacts
+- **Google Sheets** integration for GitLab users management and Twilio contacts
 - **GitLab** automation (repo creation, backup, etc.)
 - **WhatsApp notifications** via Twilio
 - **CSV to XLSX conversion** using Lambda
@@ -15,25 +15,28 @@ This repository provides a unified platform for DevOps automation using AWS Lamb
 
 ```
 ├── app.py                # Flask web server and routes
-├── requirements.txt         # Python dependencies
-├── credentials.json         # Google Sheets credentials (NOT in version control)
+├── compose.yaml          # Docker compose configuration
+├── Dockerfile           # Container definition
+├── requirements.txt     # Python dependencies
+├── credentials.json     # Google Sheets credentials (NOT in version control)
 ├── README.md
 ├── modules/
-│   ├── envs.py             # Environment variables handling (NOT in version control)
-│   ├── invoke_lambdas.py   # Lambda invocation utilities
+│   ├── __init__.py
+│   ├── invoke_lambdas.py   # Lambda invocation utilities 
 │   ├── parse.py            # Data parsing helpers
+│   ├── secrets.py          # AWS Secrets Manager utilities
 │   ├── sheet_auth.py       # Google Sheets authentication
-│   └── lambdas/            # Lambda function packages
-│       ├── backup_package/
-│       ├── create_repo_package/
-│       ├── init_gitlab_package/
-│       ├── whatsapp_notify/
-│       ├── wikipedia_package/
-│       └── xlsx_package/
-└── templates/              # Flask HTML templates
+│   └── lambdas-terraform/  # Lambda functions with Terraform
+│       ├── Backup/
+│       ├── CreateRepo/
+│       ├── InitGitlab/
+│       ├── WhatsappNotify/
+│       ├── Wikipedia/
+│       └── xlsx/
+└── templates/           # Flask HTML templates
     ├── backup.html
-    ├── index.html
     ├── createrepo.html
+    ├── index.html
     ├── init_gitlab.html
     ├── wiki.html
     └── xlsx.html
@@ -61,7 +64,7 @@ This repository provides a unified platform for DevOps automation using AWS Lamb
    ```
 
 4. **AWS Secrets Manager Configuration:**
-   The following secrets are managed in AWS Secrets Manager:
+   The following secrets are required in AWS Secrets Manager:
 
    ```json
    {
@@ -69,43 +72,36 @@ This repository provides a unified platform for DevOps automation using AWS Lamb
      "GITLAB_XLSX_USER": "gitlab_username",
      "GITLAB_XLSX_REPO": "repository_name",
      "GITLAB_ADMIN_TOKEN": "admin_access_token",
+     "GITLAB_WIKI_TOKEN": "wiki_repo_access_token",
      "TWILIO_AUTH_TOKEN": "twilio_auth_token",
      "TWILIO_ACCOUNT_SID": "account_sid",
      "TWILIO_WHATSAPP_FROM": "whatsapp_number"
    }
    ```
 
-   - Ensure Lambda functions have appropriate IAM roles to access these secrets
-   - Use AWS SDK to fetch secrets in your code:
-   ```python
-   import boto3
-   
-   def get_secret(secret_name):
-       session = boto3.session.Session()
-       client = session.client('secretsmanager')
-       response = client.get_secret_value(SecretId=secret_name)
-       return response['SecretString']
-   ```
-
-5. **Local Development Setup:**
-   - Create `.env` file for local development (do not commit):
+5. **Environment Variables:**
+   Required environment variables:
    ```bash
    # AWS Configuration
-   AWS_REGION=your_region
-   AWS_SECRET_NAME=your_secret_name
+   AWS_REGION=eu-central-1
    
-   # AWS credentials (if not using IAM role)
-   AWS_ACCESS_KEY_ID=your_access_key
-   AWS_SECRET_ACCESS_KEY=your_secret_key
-
-   # Google
-   SHEET_ID=your_google_sheet_id
+   # GitLab
+   GITLAB_URL=http://your.gitlab.url
+   GITLAB_USER=your_user
+   GITLAB_REPO=your_repo
+   GITLAB_BRANCH=main
    ```
 
-
-6. **Run the server:**
+6. **Run the Application:**
+   
+   Using Docker:
    ```bash
-   python server.py
+   docker compose up --build
+   ```
+
+   Or locally:
+   ```bash
+   python app.py
    ```
 
 ## API Endpoints
@@ -113,7 +109,7 @@ This repository provides a unified platform for DevOps automation using AWS Lamb
 - `/` - Dashboard
 - `/createrepo` - Create GitLab repository
 - `/backup` - Backup files from GitLab to S3
-- `/wiki` - Wikipedia summary saved to txt file in GitLab repository  
+- `/wiki` - Wikipedia summary saved to txt file in GitLab repository
 - `/init_gitlab` - Initialize GitLab project
 - `/xlsx` - Convert CSV to XLSX and save it in GitLab repository
 - `/bot` - WhatsApp bot webhook
@@ -122,7 +118,6 @@ This repository provides a unified platform for DevOps automation using AWS Lamb
 
 - Never commit sensitive credentials to version control
 - Always use AWS Secrets Manager in production
-- Use `.env` file only for local development
 - Configure IAM roles with least privilege principle
 - Monitor Secrets Manager access logs
 - Rotate secrets periodically
@@ -130,13 +125,15 @@ This repository provides a unified platform for DevOps automation using AWS Lamb
 
 ## Lambda Functions
 
-Each package in `modules/lambdas/` contains:
+Each Lambda function in `modules/lambdas-terraform/` contains:
+- Terraform configuration files
 - Lambda function code
-- Dependencies
+- Dependencies in requirements.txt
+- IAM role and policy definitions
 
 ## Development
 
 1. Make changes to Lambda functions in their respective directories
 2. Test locally using the Flask server
-3. Deploy Lambda functions using AWS CLI or console
+3. Deploy Lambda functions using Terraform
 4. Update secrets in AWS Secrets Manager as needed
