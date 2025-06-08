@@ -1,6 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
-from modules.envs import SHEET_ID
+from modules.secrets import SHEET_ID
 
 
 scopes = ["https://www.googleapis.com/auth/spreadsheets"]
