@@ -8,3 +8,4 @@
 !*.yaml
 !Dockerfile
 .venv
+**/.terraform
