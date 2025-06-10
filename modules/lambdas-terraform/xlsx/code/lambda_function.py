@@ -28,7 +28,7 @@ def lambda_handler(event, context):
     gitlab_token = secrets["CSV_LAMBDA_GITLAB_TOKEN"]
     gitlab_user = secrets["GITLAB_XLSX_USER"]
     gitlab_repo = secrets["GITLAB_XLSX_REPO"]
-    gitlab_url = os.getenv("GITLAB_URL", "http://18.184.158.95:80")
+    gitlab_url = os.getenv("GITLAB_URL", "http://3.77.55.171:80")
     gitlab_branch = ("main")
     file_path = output_file_name
 

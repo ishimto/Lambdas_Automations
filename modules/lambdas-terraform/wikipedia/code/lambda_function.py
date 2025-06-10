@@ -27,11 +27,11 @@ def lambda_handler(event, context):
 
     secrets = get_secrets()
     gitlab_token = secrets["GITLAB_ADMIN_TOKEN"]
-    gitlab_user = os.getenv("GITLAB_USER")
-    gitlab_repo = os.getenv("GITLAB_REPO")
+    gitlab_user = os.getenv("GITLAB_USER", "main-group")
+    gitlab_repo = os.getenv("GITLAB_REPO", "wikipedia")
     gitlab_branch = os.getenv("GITLAB_BRANCH", "main")
     file_path = os.getenv("GITLAB_FILE_PATH", "wiki_summaries.txt")
-    gitlab_url = os.getenv("GITLAB_URL", "http://18.184.158.95:80")
+    gitlab_url = os.getenv("GITLAB_URL", "http://3.77.55.171:80")
 
     if not all([gitlab_token, gitlab_user, gitlab_repo]):
         return {

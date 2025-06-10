@@ -1,0 +1,9 @@
+services:
+  trivy:
+    image: aquasec/trivy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - .trivyignore:/tmp/.trivyignore:ro
+    environment:
+      - DOCKER_IMAGE=${DOCKER_IMAGE}
+    command: ["image", "--severity", "CRITICAL", "--exit-code", "1", "--ignorefile", "/tmp/.trivyignore", "$DOCKER_IMAGE"]

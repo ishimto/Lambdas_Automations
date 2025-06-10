@@ -1,0 +1,5 @@
+services:
+  tests:
+    build: .
+    network_mode: host
+

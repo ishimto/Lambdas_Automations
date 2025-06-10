@@ -16,7 +16,7 @@ def lambda_handler(event, context):
 
     secrets = get_secrets()
     gitlab_token = secrets["GITLAB_ADMIN_TOKEN"]
-    gitlab_url = os.getenv("GITLAB_URL", "http://18.184.158.95:80")    
+    gitlab_url = os.getenv("GITLAB_URL", "http://3.77.55.171:80")    
     
     file_name = event.get("file_name")
     bucket_name = event.get("bucket_name")

@@ -8,5 +8,7 @@
 !*.py
 !*.yaml
 !Dockerfile
+!.dockerignore
+!.trivyignore
 .venv
 **/.terraform

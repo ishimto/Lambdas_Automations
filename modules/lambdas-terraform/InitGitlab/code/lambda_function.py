@@ -13,14 +13,14 @@ def get_secrets(secret_name="lambda/creds", region_name="eu-central-1"):
 def lambda_handler(event, context):
     secrets = get_secrets()
     gitlab_token = secrets["GITLAB_ADMIN_TOKEN"]
-    gitlab_url = os.getenv("GITLAB_URL", "http://18.184.158.95:80")
+    gitlab_url = os.getenv("GITLAB_URL", "http://3.77.55.171:80")
     GROUP_NAME = os.getenv("GITLAB_GROUP", "main-group")
     users = event.get("users", [])
     
     gl = gitlab.Gitlab(gitlab_url, private_token=gitlab_token)
 
 
-    if users == :
+    if not users:
         return {
             "statusCode": 400,
             "body": "No users provided"
