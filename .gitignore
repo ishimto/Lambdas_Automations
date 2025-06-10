@@ -10,5 +10,6 @@
 !Dockerfile
 !.dockerignore
 !.trivyignore
+!Jenkinsfile
 .venv
 **/.terraform
